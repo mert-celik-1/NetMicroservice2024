@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{56BD987A-DD8B-4D4C-B0D6-FD25A54A6DF6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{3854FC3F-BB24-47D2-A1A5-1ACB1B18E025}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "catalog", "catalog", "{34D1E27F-20A2-442C-A25C-2A10779374A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMicroservice.Catalog.Api", "NetMicroservice.Catalog.Api\NetMicroservice.Catalog.Api.csproj", "{7AB6C5A5-9794-493E-85AC-2B8F2FC736A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3854FC3F-BB24-47D2-A1A5-1ACB1B18E025} = {56BD987A-DD8B-4D4C-B0D6-FD25A54A6DF6}
+		{34D1E27F-20A2-442C-A25C-2A10779374A5} = {3854FC3F-BB24-47D2-A1A5-1ACB1B18E025}
+		{7AB6C5A5-9794-493E-85AC-2B8F2FC736A2} = {34D1E27F-20A2-442C-A25C-2A10779374A5}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7AB6C5A5-9794-493E-85AC-2B8F2FC736A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AB6C5A5-9794-493E-85AC-2B8F2FC736A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AB6C5A5-9794-493E-85AC-2B8F2FC736A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AB6C5A5-9794-493E-85AC-2B8F2FC736A2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
