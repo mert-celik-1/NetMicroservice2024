@@ -1,6 +1,8 @@
+using NetMicroservice.Catalog.Api;
 using NetMicroservice.Catalog.Api.Features.Categories;
 using NetMicroservice.Catalog.Api.Options;
 using NetMicroservice.Catalog.Api.Repositories;
+using NetMicroservice.Shared.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddOptionsExt();
 builder.Services.AddDatabaseServiceExt();
+
+builder.Services.AddCommonServiceExt(typeof(CatalogAssembly));
 
 var app = builder.Build();
 
