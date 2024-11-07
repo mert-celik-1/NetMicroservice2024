@@ -1,3 +1,4 @@
+using NetMicroservice.Catalog.Api.Features.Categories;
 using NetMicroservice.Catalog.Api.Options;
 using NetMicroservice.Catalog.Api.Repositories;
 
@@ -13,7 +14,8 @@ builder.Services.AddDatabaseServiceExt();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.AddCategoryGroupEndpointExt();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
