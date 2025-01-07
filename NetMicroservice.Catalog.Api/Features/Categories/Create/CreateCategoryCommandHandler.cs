@@ -1,10 +1,3 @@
-using System.Net;
-using MassTransit;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using NetMicroservice.Catalog.Api.Repositories;
-using NetMicroservice.Shared;
-
 namespace NetMicroservice.Catalog.Api.Features.Categories.Create;
 
 public class CreateCategoryCommandHandler(AppDbContext context)

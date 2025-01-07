@@ -1,4 +1,5 @@
 using NetMicroservice.Catalog.Api.Features.Categories;
+using NetMicroservice.Catalog.Api.Features.Categories.Dtos;
 
 namespace NetMicroservice.Catalog.Api.Features.Courses;
 

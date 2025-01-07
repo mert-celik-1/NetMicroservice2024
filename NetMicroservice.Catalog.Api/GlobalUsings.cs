@@ -1,0 +1,10 @@
+global using AutoMapper;
+global using MediatR;
+global using Microsoft.EntityFrameworkCore;
+global using NetMicroservice.Shared;
+global using NetMicroservice.Shared.Extensions;
+global using MassTransit;
+global using System.Net;
+global using FluentValidation;
+global using NetMicroservice.Catalog.Api.Features.Categories.Dtos;
+global using NetMicroservice.Catalog.Api.Repositories;
