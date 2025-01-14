@@ -4,10 +4,11 @@ using Microsoft.Extensions.Caching.Distributed;
 using NetMicroservice.Basket.Api.Const;
 using NetMicroservice.Basket.Api.Dto;
 using NetMicroservice.Shared;
+using NetMicroservice.Shared.Services;
 
 namespace NetMicroservice.Basket.Api.Features.Baskets.AddBasketItem;
 
-public class AddBasketItemCommandHandler(IDistributedCache distributedCache)
+public class AddBasketItemCommandHandler(IDistributedCache distributedCache, IIdentityService identityService)
     : IRequestHandler<AddBasketItemCommand, ServiceResult>
 {
     public async Task<ServiceResult> Handle(AddBasketItemCommand request, CancellationToken cancellationToken)
@@ -16,7 +17,7 @@ public class AddBasketItemCommandHandler(IDistributedCache distributedCache)
 
 
         // TODO : change userId
-        Guid userId = Guid.NewGuid();
+        Guid userId = identityService.GetUserId;
         var cacheKey = string.Format(BasketConst.BasketCacheKey, userId);
 
         var basketAsString = await distributedCache.GetStringAsync(cacheKey, token: cancellationToken);
