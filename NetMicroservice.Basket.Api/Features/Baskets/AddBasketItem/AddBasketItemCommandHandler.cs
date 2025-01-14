@@ -1,62 +1,54 @@
 using System.Text.Json;
 using MediatR;
-using Microsoft.Extensions.Caching.Distributed;
-using NetMicroservice.Basket.Api.Const;
-using NetMicroservice.Basket.Api.Dto;
+using NetMicroservice.Basket.Api.Data;
 using NetMicroservice.Shared;
 using NetMicroservice.Shared.Services;
 
 namespace NetMicroservice.Basket.Api.Features.Baskets.AddBasketItem;
 
-public class AddBasketItemCommandHandler(IDistributedCache distributedCache, IIdentityService identityService)
+public class AddBasketItemCommandHandler(
+    IIdentityService identityService,
+    BasketService basketService)
     : IRequestHandler<AddBasketItemCommand, ServiceResult>
 {
     public async Task<ServiceResult> Handle(AddBasketItemCommand request, CancellationToken cancellationToken)
     {
-        //Fast fail
+        var basketAsJson = await basketService.GetBasketFromCache(cancellationToken);
 
 
-        // TODO : change userId
-        Guid userId = identityService.GetUserId;
-        var cacheKey = string.Format(BasketConst.BasketCacheKey, userId);
+        Data.Basket? currentBasket;
 
-        var basketAsString = await distributedCache.GetStringAsync(cacheKey, token: cancellationToken);
-
-
-        BasketDto? currentBasket;
-
-        var newBasketItem = new BasketItemDto(request.CourseId, request.CourseName, request.ImageUrl,
+        var newBasketItem = new BasketItem(request.CourseId, request.CourseName, request.ImageUrl,
             request.CoursePrice, null);
 
 
-        if (string.IsNullOrEmpty(basketAsString))
+        if (string.IsNullOrEmpty(basketAsJson))
         {
-            currentBasket = new BasketDto(userId, [newBasketItem]);
-            await CreateCacheAsync(currentBasket, cacheKey, cancellationToken);
+            currentBasket = new Data.Basket(identityService.GetUserId, [newBasketItem]);
+            await basketService.CreateBasketCacheAsync(currentBasket, cancellationToken);
             return ServiceResult.SuccessAsNoContent();
         }
 
-        currentBasket = JsonSerializer.Deserialize<BasketDto>(basketAsString);
+        currentBasket = JsonSerializer.Deserialize<Data.Basket>(basketAsJson);
 
 
-        var existingBasketItem = currentBasket!.BasketItems.FirstOrDefault(x => x.Id == request.CourseId);
+        var existingBasketItem = currentBasket!.Items.FirstOrDefault(x => x.Id == request.CourseId);
 
 
         if (existingBasketItem is not null)
         {
-            currentBasket.BasketItems.Remove(existingBasketItem);
+            // TODO : business rule
+            currentBasket.Items.Remove(existingBasketItem);
         }
 
-        currentBasket.BasketItems.Add(newBasketItem);
+        currentBasket.Items.Add(newBasketItem);
 
-        await CreateCacheAsync(currentBasket, cacheKey, cancellationToken);
+
+        currentBasket.ApplyAvailableDiscount();
+
+
+        await basketService.CreateBasketCacheAsync(currentBasket, cancellationToken);
 
         return ServiceResult.SuccessAsNoContent();
-    }
-
-    private async Task CreateCacheAsync(BasketDto basket, string cacheKey, CancellationToken cancellationToken)
-    {
-        var basketAsString = JsonSerializer.Serialize(basket);
-        await distributedCache.SetStringAsync(cacheKey, basketAsString, token: cancellationToken);
     }
 }
